@@ -313,7 +313,7 @@ export namespace Messages {
          * Prompt the user for some feature
          */
         export namespace PromptStringRequest {
-            export const type = new RequestType<Protocol.StringPrompt, string, void, void>('client/promptString');
+            export const type = new RequestType<Protocol.StringPrompt, string>('client/promptString');
         }
         /**
          * The `client/discoveryPathAdded` notification is sent by the server to all

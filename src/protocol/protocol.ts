@@ -218,4 +218,4 @@ export namespace Protocol {
         responseSecret: boolean;
         validResponses: string[];
     }
-    }
+}

@@ -151,7 +151,7 @@ describe('RSP Client', () => {
         it('onServerOutputAppended should add listener to serverOutputAppended event', () => {
             client.getIncomingHandler().onServerProcessOutputAppended(listener);
 
-            expect(eventStub).calledWith('serverOutputAppended', listener);
+            expect(eventStub).calledWith('serverProcessOutputAppended', listener);
         });
 
         it('onServerAttributeChange should add listener to serverAttributesChanged event', () => {

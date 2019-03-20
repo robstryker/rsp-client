@@ -80,52 +80,40 @@ export class Incoming {
     {
         this.connection.onRequest(Messages.Client.PromptStringRequest.type, listener);
     }
-    onDiscoveryPathAdded(listener: (arg: Protocol.DiscoveryPath) => void): void
-    {
+    onDiscoveryPathAdded(listener: (arg: Protocol.DiscoveryPath) => void): void {
         this.emitter.on('discoveryPathAdded', listener);
     }
-    onDiscoveryPathRemoved(listener: (arg: Protocol.DiscoveryPath) => void): void
-    {
+    onDiscoveryPathRemoved(listener: (arg: Protocol.DiscoveryPath) => void): void {
         this.emitter.on('discoveryPathRemoved', listener);
     }
-    onServerAdded(listener: (arg: Protocol.ServerHandle) => void): void
-    {
+    onServerAdded(listener: (arg: Protocol.ServerHandle) => void): void {
         this.emitter.on('serverAdded', listener);
     }
-    onServerRemoved(listener: (arg: Protocol.ServerHandle) => void): void
-    {
+    onServerRemoved(listener: (arg: Protocol.ServerHandle) => void): void {
         this.emitter.on('serverRemoved', listener);
     }
-    onServerAttributesChanged(listener: (arg: Protocol.ServerHandle) => void): void
-    {
+    onServerAttributesChanged(listener: (arg: Protocol.ServerHandle) => void): void {
         this.emitter.on('serverAttributesChanged', listener);
     }
-    onServerStateChanged(listener: (arg: Protocol.ServerState) => void): void
-    {
+    onServerStateChanged(listener: (arg: Protocol.ServerState) => void): void {
         this.emitter.on('serverStateChanged', listener);
     }
-    onServerProcessCreated(listener: (arg: Protocol.ServerProcess) => void): void
-    {
+    onServerProcessCreated(listener: (arg: Protocol.ServerProcess) => void): void {
         this.emitter.on('serverProcessCreated', listener);
     }
-    onServerProcessTerminated(listener: (arg: Protocol.ServerProcess) => void): void
-    {
+    onServerProcessTerminated(listener: (arg: Protocol.ServerProcess) => void): void {
         this.emitter.on('serverProcessTerminated', listener);
     }
-    onServerProcessOutputAppended(listener: (arg: Protocol.ServerProcessOutput) => void): void
-    {
+    onServerProcessOutputAppended(listener: (arg: Protocol.ServerProcessOutput) => void): void {
         this.emitter.on('serverProcessOutputAppended', listener);
     }
-    onJobAdded(listener: (arg: Protocol.JobHandle) => void): void
-    {
+    onJobAdded(listener: (arg: Protocol.JobHandle) => void): void {
         this.emitter.on('jobAdded', listener);
     }
-    onJobRemoved(listener: (arg: Protocol.JobRemoved) => void): void
-    {
+    onJobRemoved(listener: (arg: Protocol.JobRemoved) => void): void {
         this.emitter.on('jobRemoved', listener);
     }
-    onJobChanged(listener: (arg: Protocol.JobProgress) => void): void
-    {
+    onJobChanged(listener: (arg: Protocol.JobProgress) => void): void {
         this.emitter.on('jobChanged', listener);
     }
 }

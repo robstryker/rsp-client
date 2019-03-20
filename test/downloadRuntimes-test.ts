@@ -2,10 +2,11 @@ import * as chai from 'chai';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
 import * as rpc from 'vscode-jsonrpc';
-import { Messages } from '../src/protocol/messages';
-import { Protocol } from '../src/protocol/protocol';
-import { Common, ErrorMessages } from '../src/util/common';
-import { DownloadRuntimes } from '../src/util/downloadRuntimes';
+import { EventEmitter } from 'events';
+import { Messages } from '../src/protocol/generated/messages';
+import { Protocol } from '../src/protocol/generated/protocol';
+import { Outgoing, ErrorMessages } from '../src/protocol/generated/outgoing';
+import { Common } from '../src/util/common';
 import 'mocha';
 
 const expect = chai.expect;
@@ -15,7 +16,8 @@ describe('Download Runtimes', () => {
     let sandbox: sinon.SinonSandbox;
     let connection: sinon.SinonStubbedInstance<rpc.MessageConnection>;
     let requestStub: sinon.SinonStub;
-    let downloadRuntimes: DownloadRuntimes;
+    let emitter: EventEmitter;
+    let outgoing: Outgoing;
 
     const provideInputStatus: Protocol.Status = {
         code: 0,
@@ -76,6 +78,7 @@ describe('Download Runtimes', () => {
     const downloadWf14WorkflowItem: Protocol.WorkflowResponse = {
         status: provideInputStatus,
         requestId: downloadWfl14Request.requestId + 1,
+        jobId: '',
         items: [
             {
                 id: 'workflow.license',
@@ -116,8 +119,8 @@ describe('Download Runtimes', () => {
 
         connection = sandbox.stub(rpc.createMessageConnection(reader, writer));
         connection.onNotification = sandbox.stub().yields();
-
-        downloadRuntimes = new DownloadRuntimes(connection);
+        emitter = new EventEmitter();
+        outgoing = new Outgoing(connection, emitter);
         requestStub = sandbox.stub(Common, 'sendSimpleRequest');
     });
 
@@ -128,7 +131,7 @@ describe('Download Runtimes', () => {
     it('listDownloadableRuntimes should send ListDownloadableRuntimesRequest', async () => {
         requestStub.resolves(downloadableRuntimes);
 
-        const result: Protocol.ListDownloadRuntimeResponse = await downloadRuntimes.listDownloadableRuntimes();
+        const result: Protocol.ListDownloadRuntimeResponse = await outgoing.listDownloadableRuntimesAsync();
 
         expect(result).deep.equals(downloadableRuntimes);
         expect(requestStub).calledOnce;
@@ -139,7 +142,7 @@ describe('Download Runtimes', () => {
     it('downloadRuntime should send DownloadRuntimeRequest', async () => {
         requestStub.resolves(downloadWf14WorkflowItem);
 
-        const result: Protocol.WorkflowResponse = await downloadRuntimes.downloadRuntime(downloadWfl14Request);
+        const result: Protocol.WorkflowResponse = await outgoing.downloadRuntimeAsync(downloadWfl14Request);
 
         expect(result).deep.equals(downloadWf14WorkflowItem);
         expect(requestStub).calledOnce;

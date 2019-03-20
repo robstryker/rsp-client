@@ -2,12 +2,13 @@ import * as chai from 'chai';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
 import * as rpc from 'vscode-jsonrpc';
-import { Messages } from '../src/protocol/messages';
-import { Protocol } from '../src/protocol/protocol';
-import { EventEmitter } from 'events';
-import { Common, ErrorMessages } from '../src/util/common';
-import { ServerModel } from '../src/util/serverModel';
 import 'mocha';
+import { EventEmitter } from 'events';
+import { Common } from '../src/util/common';
+import { Messages } from '../src/protocol/generated/messages';
+import { Protocol } from '../src/protocol/generated/protocol';
+import { Outgoing, ErrorMessages } from '../src/protocol/generated/outgoing';
+import { ServerModel } from '../src/util/serverModel';
 
 const expect = chai.expect;
 chai.use(sinonChai);
@@ -15,12 +16,13 @@ chai.use(sinonChai);
 describe('Sever Model Utility', () => {
     let sandbox: sinon.SinonSandbox;
     let connection: sinon.SinonStubbedInstance<rpc.MessageConnection>;
-    let model: ServerModel;
     let emitter: EventEmitter;
     const defaultTimeout = 2000;
 
     let requestStub: sinon.SinonStub;
     let syncStub: sinon.SinonStub;
+    let model: ServerModel;
+    let outgoing: Outgoing;
 
     const discoveryPath: Protocol.DiscoveryPath = {
         filepath: 'path'
@@ -105,7 +107,8 @@ describe('Sever Model Utility', () => {
         connection.onNotification = sandbox.stub().returns(null);
 
         emitter = new EventEmitter();
-        model = new ServerModel(connection, emitter);
+        model = new ServerModel(connection,emitter);
+        outgoing = new Outgoing(connection, emitter);
         requestStub = sandbox.stub(Common, 'sendSimpleRequest');
         syncStub = sandbox.stub(Common, 'sendRequestSync');
     });
@@ -130,7 +133,7 @@ describe('Sever Model Utility', () => {
         expect(result).equals(createStatus);
         expect(requestStub).calledTwice;
         expect(requestStub).calledWithExactly(connection, Messages.Server.FindServerBeansRequest.type, discoveryPath,
-            defaultTimeout / 2, ErrorMessages.FINDBEANS_TIMEOUT);
+            defaultTimeout / 2, ErrorMessages.FINDSERVERBEANS_TIMEOUT);
         expect(requestStub).calledWithExactly(connection, Messages.Server.CreateServerRequest.type, attributes,
             defaultTimeout, ErrorMessages.CREATESERVER_TIMEOUT);
     });
@@ -167,7 +170,7 @@ describe('Sever Model Utility', () => {
     it('deleteServerAsync should delegate to the Common utility', async () => {
         requestStub.resolves(okStatus);
 
-        const result = await model.deleteServerAsync(serverHandle);
+        const result = await outgoing.deleteServerAsync(serverHandle);
 
         expect(result).equals(okStatus);
         expect(requestStub).calledOnce;
@@ -177,18 +180,18 @@ describe('Sever Model Utility', () => {
     it('getServerHandles should delegate to the Common utility', async () => {
         requestStub.resolves([serverHandle]);
 
-        const result = await model.getServerHandles();
+        const result = await outgoing.getServerHandlesAsync();
 
         expect(result).deep.equals([serverHandle]);
         expect(requestStub).calledOnce;
         expect(requestStub).calledWithExactly(connection, Messages.Server.GetServerHandlesRequest.type, null,
-            defaultTimeout, ErrorMessages.GETSERVERS_TIMEOUT);
+            defaultTimeout, ErrorMessages.GETSERVERHANDLES_TIMEOUT);
     });
 
     it('getServerState should send GetServerStateRequest', async () => {
         requestStub.resolves(serverState);
 
-        const result = await model.getServerState(serverHandle);
+        const result = await outgoing.getServerStateAsync(serverHandle);
 
         expect(result).deep.equals(serverState);
         expect(requestStub).calledOnce;
@@ -199,7 +202,7 @@ describe('Sever Model Utility', () => {
     it('getServerTypes should delegate to the Common utility', async () => {
         requestStub.resolves([serverType]);
 
-        const result = await model.getServerTypes();
+        const result = await outgoing.getServerTypesAsync();
 
         expect(result).deep.equals([serverType]);
         expect(requestStub).calledOnce;
@@ -210,23 +213,23 @@ describe('Sever Model Utility', () => {
     it('getServerTypeRequiredAttributes should delegate to the Common utility', async () => {
         requestStub.resolves(attributes);
 
-        const result = await model.getServerTypeRequiredAttributes(serverType);
+        const result = await outgoing.getRequiredAttributesAsync(serverType);
 
         expect(result).deep.equals(attributes);
         expect(requestStub).calledOnce;
         expect(requestStub).calledWithExactly(connection, Messages.Server.GetRequiredAttributesRequest.type, serverType,
-            defaultTimeout, ErrorMessages.GETREQUIREDATTRS_TIMEOUT);
+            defaultTimeout, ErrorMessages.GETREQUIREDATTRIBUTES_TIMEOUT);
     });
 
     it('getServerTypeOptionalAttributes should delegate to the Common utility', async () => {
         requestStub.resolves(attributes);
 
-        const result = await model.getServerTypeOptionalAttributes(serverType);
+        const result = await outgoing.getOptionalAttributesAsync(serverType);
 
         expect(result).deep.equals(attributes);
         expect(requestStub).calledOnce;
         expect(requestStub).calledWithExactly(connection, Messages.Server.GetOptionalAttributesRequest.type, serverType,
-            defaultTimeout, ErrorMessages.GETOPTIONALATTRS_TIMEOUT);
+            defaultTimeout, ErrorMessages.GETOPTIONALATTRIBUTES_TIMEOUT);
     });
 
     describe('Synchronous Server Creation', () => {

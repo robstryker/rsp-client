@@ -6,7 +6,6 @@ import { ServerModel } from './util/serverModel';
 import { EventEmitter } from 'events';
 import { Incoming } from './protocol/generated/incoming';
 import { Outgoing } from './protocol/generated/outgoing';
-import { timingSafeEqual } from 'crypto';
 import { OutgoingSynchronous } from './util/outgoingsync';
 
 

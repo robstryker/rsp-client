@@ -170,7 +170,7 @@ describe('Sever Model Utility', () => {
     it('deleteServerAsync should delegate to the Common utility', async () => {
         requestStub.resolves(okStatus);
 
-        const result = await outgoing.deleteServerAsync(serverHandle);
+        const result = await outgoing.deleteServer(serverHandle);
 
         expect(result).equals(okStatus);
         expect(requestStub).calledOnce;
@@ -180,7 +180,7 @@ describe('Sever Model Utility', () => {
     it('getServerHandles should delegate to the Common utility', async () => {
         requestStub.resolves([serverHandle]);
 
-        const result = await outgoing.getServerHandlesAsync();
+        const result = await outgoing.getServerHandles();
 
         expect(result).deep.equals([serverHandle]);
         expect(requestStub).calledOnce;
@@ -191,7 +191,7 @@ describe('Sever Model Utility', () => {
     it('getServerState should send GetServerStateRequest', async () => {
         requestStub.resolves(serverState);
 
-        const result = await outgoing.getServerStateAsync(serverHandle);
+        const result = await outgoing.getServerState(serverHandle);
 
         expect(result).deep.equals(serverState);
         expect(requestStub).calledOnce;
@@ -202,7 +202,7 @@ describe('Sever Model Utility', () => {
     it('getServerTypes should delegate to the Common utility', async () => {
         requestStub.resolves([serverType]);
 
-        const result = await outgoing.getServerTypesAsync();
+        const result = await outgoing.getServerTypes();
 
         expect(result).deep.equals([serverType]);
         expect(requestStub).calledOnce;
@@ -213,7 +213,7 @@ describe('Sever Model Utility', () => {
     it('getServerTypeRequiredAttributes should delegate to the Common utility', async () => {
         requestStub.resolves(attributes);
 
-        const result = await outgoing.getRequiredAttributesAsync(serverType);
+        const result = await outgoing.getRequiredAttributes(serverType);
 
         expect(result).deep.equals(attributes);
         expect(requestStub).calledOnce;
@@ -224,7 +224,7 @@ describe('Sever Model Utility', () => {
     it('getServerTypeOptionalAttributes should delegate to the Common utility', async () => {
         requestStub.resolves(attributes);
 
-        const result = await outgoing.getOptionalAttributesAsync(serverType);
+        const result = await outgoing.getOptionalAttributes(serverType);
 
         expect(result).deep.equals(attributes);
         expect(requestStub).calledOnce;

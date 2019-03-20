@@ -131,7 +131,7 @@ describe('Download Runtimes', () => {
     it('listDownloadableRuntimes should send ListDownloadableRuntimesRequest', async () => {
         requestStub.resolves(downloadableRuntimes);
 
-        const result: Protocol.ListDownloadRuntimeResponse = await outgoing.listDownloadableRuntimesAsync();
+        const result: Protocol.ListDownloadRuntimeResponse = await outgoing.listDownloadableRuntimes();
 
         expect(result).deep.equals(downloadableRuntimes);
         expect(requestStub).calledOnce;
@@ -142,7 +142,7 @@ describe('Download Runtimes', () => {
     it('downloadRuntime should send DownloadRuntimeRequest', async () => {
         requestStub.resolves(downloadWf14WorkflowItem);
 
-        const result: Protocol.WorkflowResponse = await outgoing.downloadRuntimeAsync(downloadWfl14Request);
+        const result: Protocol.WorkflowResponse = await outgoing.downloadRuntime(downloadWfl14Request);
 
         expect(result).deep.equals(downloadWf14WorkflowItem);
         expect(requestStub).calledOnce;

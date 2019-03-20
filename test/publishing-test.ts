@@ -106,7 +106,7 @@ describe('Publishing', () => {
         const deployableStates: Protocol.DeployableState[] = [deployableState];
         requestStub.resolves(deployableStates);
 
-        const result: Protocol.DeployableState[] = await outgoing.getDeployablesAsync(serverHandle);
+        const result: Protocol.DeployableState[] = await outgoing.getDeployables(serverHandle);
 
         expect(result).deep.equals(deployableStates);
         expect(requestStub).calledOnce;
@@ -117,7 +117,7 @@ describe('Publishing', () => {
     it('addDeployable should send AddDeployableRequest', async () => {
         requestStub.resolves(okStatus);
 
-        const result: Protocol.Status = await outgoing.addDeployableAsync(modifyDeployableRequest);
+        const result: Protocol.Status = await outgoing.addDeployable(modifyDeployableRequest);
 
         expect(result).deep.equals(okStatus);
         expect(requestStub).calledOnce;
@@ -128,7 +128,7 @@ describe('Publishing', () => {
     it('removeDeployable should send RemoveDeployableRequest', async () => {
         requestStub.resolves(okStatus);
 
-        const result: Protocol.Status = await outgoing.removeDeployableAsync(modifyDeployableRequest);
+        const result: Protocol.Status = await outgoing.removeDeployable(modifyDeployableRequest);
 
         expect(result).deep.equals(okStatus);
         expect(requestStub).calledOnce;
@@ -139,7 +139,7 @@ describe('Publishing', () => {
     it('publish should send PublishServerRequest', async () => {
         requestStub.resolves(okStatus);
 
-        const result: Protocol.Status = await outgoing.publishAsync(publishServerRequest);
+        const result: Protocol.Status = await outgoing.publish(publishServerRequest);
 
         expect(result).deep.equals(okStatus);
         expect(requestStub).calledOnce;

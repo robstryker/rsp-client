@@ -99,7 +99,7 @@ describe('Server Launcher Utility', () => {
 
     it('getLaunchModes should delegate to the Common utility', async () => {
         requestStub.resolves([launchMode]);
-        const result = await outgoing.getLaunchModesAsync(serverType);
+        const result = await outgoing.getLaunchModes(serverType);
 
         expect(result).deep.equals([launchMode]);
         expect(requestStub).calledOnce;
@@ -109,7 +109,7 @@ describe('Server Launcher Utility', () => {
 
     it('getRequiredLaunchAttributes should delegate to the Common utility', async () => {
         requestStub.resolves(attributes);
-        const result = await outgoing.getRequiredLaunchAttributesAsync(launchAttrRequest);
+        const result = await outgoing.getRequiredLaunchAttributes(launchAttrRequest);
 
         expect(result).equals(attributes);
         expect(requestStub).calledOnce;
@@ -119,7 +119,7 @@ describe('Server Launcher Utility', () => {
 
     it('getOptionalLaunchAttributes should delegate to the Common utility', async () => {
         requestStub.resolves(attributes);
-        const result = await outgoing.getOptionalLaunchAttributesAsync(launchAttrRequest);
+        const result = await outgoing.getOptionalLaunchAttributes(launchAttrRequest);
 
         expect(result).equals(attributes);
         expect(requestStub).calledOnce;
@@ -129,7 +129,7 @@ describe('Server Launcher Utility', () => {
 
     it('getLaunchCommand should delegate to the Common utility', async () => {
         requestStub.resolves(cliArgs);
-        const result = await outgoing.getLaunchCommandAsync(launchParameters);
+        const result = await outgoing.getLaunchCommand(launchParameters);
 
         expect(result).equals(cliArgs);
         expect(requestStub).calledOnce;
@@ -139,7 +139,7 @@ describe('Server Launcher Utility', () => {
 
     it('serverStartingByClient should delegate to the Common utility', async () => {
         requestStub.resolves(status);
-        const result = await outgoing.serverStartingByClientAsync(startingAttrs);
+        const result = await outgoing.serverStartingByClient(startingAttrs);
 
         expect(result).equals(status);
         expect(requestStub).calledOnce;
@@ -149,7 +149,7 @@ describe('Server Launcher Utility', () => {
 
     it('serverStartedByClient should delegate to the Common utility', async () => {
         requestStub.resolves(status);
-        const result = await outgoing.serverStartedByClientAsync(launchParameters);
+        const result = await outgoing.serverStartedByClient(launchParameters);
 
         expect(result).equals(status);
         expect(requestStub).calledOnce;
@@ -159,7 +159,7 @@ describe('Server Launcher Utility', () => {
 
     it('startServerAsync should delegate to the Common utility', async () => {
         requestStub.resolves(serverStart);
-        const result = await outgoing.startServerAsyncAsync(launchParameters);
+        const result = await outgoing.startServerAsync(launchParameters);
 
         expect(result).equals(serverStart);
         expect(requestStub).calledOnce;
@@ -169,7 +169,7 @@ describe('Server Launcher Utility', () => {
 
     it('stopServerAsync should delegate to the Common utility', async () => {
         requestStub.resolves(status);
-        const result = await outgoing.stopServerAsyncAsync(stopParameters);
+        const result = await outgoing.stopServerAsync(stopParameters);
 
         expect(result).equals(status);
         expect(requestStub).calledOnce;

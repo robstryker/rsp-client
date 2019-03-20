@@ -58,7 +58,7 @@ describe('Discovery Utility', () => {
 
     it('findServerBeans should delegate to the Common utility', async () => {
         requestStub.resolves([discoveryPath]);
-        const result = await outgoing.findServerBeansAsync(discoveryPath);
+        const result = await outgoing.findServerBeans(discoveryPath);
 
         expect(result).deep.equals([discoveryPath]);
         expect(requestStub).calledOnce;
@@ -68,7 +68,7 @@ describe('Discovery Utility', () => {
 
     it('addDiscoveryPathAsync should delegate to the Common utility', async () => {
         requestStub.resolves(status);
-        const result = await outgoing.addDiscoveryPathAsync(discoveryPath);
+        const result = await outgoing.addDiscoveryPath(discoveryPath);
 
         expect(result).equals(status);
         expect(requestStub).calledOnce;
@@ -87,7 +87,7 @@ describe('Discovery Utility', () => {
 
     it('removePathAsync should accept DiscoveryPath', async () => {
         requestStub.resolves(status);
-        const result = await outgoing.removeDiscoveryPathAsync(discoveryPath);
+        const result = await outgoing.removeDiscoveryPath(discoveryPath);
 
         expect(result).equals(status);
         expect(requestStub).calledOnce;
@@ -106,7 +106,7 @@ describe('Discovery Utility', () => {
 
     it('getDiscoveryPaths should delegate to Common utility', async () => {
         requestStub.resolves([discoveryPath]);
-        const result = await outgoing.getDiscoveryPathsAsync();
+        const result = await outgoing.getDiscoveryPaths();
 
         expect(result).deep.equals([discoveryPath]);
         expect(requestStub).calledOnce;

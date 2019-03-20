@@ -5,4 +5,4 @@ export * from './util/statusSeverity';
 export * from './protocol/generated/incoming';
 export * from './protocol/generated/outgoing';
 export * from './util/outgoingsync';
-export * from './util/serverModel';
+export * from './util/serverCreation';

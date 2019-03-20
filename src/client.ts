@@ -2,7 +2,7 @@ import * as net from 'net';
 import * as rpc from 'vscode-jsonrpc';
 import { Protocol } from './protocol/generated/protocol';
 import { Messages } from './protocol/generated/messages';
-import { ServerModel } from './util/serverModel';
+import { ServerCreation } from './util/serverCreation';
 import { EventEmitter } from 'events';
 import { Incoming } from './protocol/generated/incoming';
 import { Outgoing } from './protocol/generated/outgoing';
@@ -19,7 +19,7 @@ export class RSPClient {
     private socket: net.Socket;
     private connection: rpc.MessageConnection;
     private emitter: EventEmitter;
-    private serverUtil: ServerModel;
+    private serverUtil: ServerCreation;
 
     private incoming: Incoming;
     private outgoing: Outgoing;
@@ -59,7 +59,7 @@ export class RSPClient {
                 }
 
                 this.connection.listen();
-                this.serverUtil = new ServerModel(this.connection, this.emitter);
+                this.serverUtil = new ServerCreation(this.connection, this.emitter);
 
                 this.incoming = new Incoming(this.connection, this.emitter);
                 this.outgoing = new Outgoing(this.connection, this.emitter);
@@ -105,7 +105,7 @@ export class RSPClient {
         return this.outgoingSync;
     }
 
-    getServerModel(): ServerModel {
+    getServerCreation(): ServerCreation {
         return this.serverUtil;
     }
 

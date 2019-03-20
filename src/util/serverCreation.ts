@@ -6,9 +6,9 @@ import { Common } from './common';
 import { ErrorMessages } from '../protocol/generated/outgoing';
 
 /**
- * Server creation/removal handler
+ * Server creation utility
  */
-export class ServerModel {
+export class ServerCreation {
 
     private connection: MessageConnection;
     private emitter: EventEmitter;
@@ -161,16 +161,4 @@ export class ServerModel {
         });
     }
 
-    /**
-     * Sends notification to remove a server from RSP, then waits for the appropriate 'serverRemoved' event
-     * @param serverHandle server handle containing the server id and type, see {@link Protocol.ServerHandle}
-     * @param timeout timeout in milliseconds
-     */
-    deleteServerSync(serverHandle: Protocol.ServerHandle, timeout: number = Common.DEFAULT_TIMEOUT): Promise<Protocol.ServerHandle> {
-        const listener = (param: Protocol.ServerHandle) => {
-            return param.id === serverHandle.id;
-        };
-        return Common.sendRequestSync(this.connection, Messages.Server.DeleteServerRequest.type, serverHandle, this.emitter,
-            'serverRemoved', listener, timeout, ErrorMessages.DELETESERVER_TIMEOUT);
-    }
 }
